@@ -1,0 +1,1130 @@
+/* ========================================
+   ROMANTIC DIGITAL FLIPBOOK STYLES
+   Romantic aesthetic with 3D page flip animations
+   ======================================== */
+
+/* ========================================
+   GLOBAL STYLES & VARIABLES
+   ======================================== */
+:root {
+  /* Romantic Color Palette */
+  --color-cream: #FFF8F0;
+  --color-cream-dark: #F5EBE0;
+  --color-pink: #FFE5E5;
+  --color-pink-medium: #FFD1DC;
+  --color-beige: #E8DCC4;
+  --color-beige-dark: #D4C4A8;
+  --color-gold: #D4AF37;
+  --color-gold-light: #E6C968;
+  --color-rose: #C9A9A6;
+  --color-brown: #8B7355;
+  --color-text: #4A3728;
+  --color-text-light: #6B5947;
+  
+  /* Fonts */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Poppins', sans-serif;
+  
+  /* Book dimensions */
+  --book-width: 800px;
+  --book-height: 600px;
+  
+  /* Responsive dimensions */
+  --book-width-tablet: 600px;
+  --book-height-tablet: 450px;
+  --book-width-mobile: 90vw;
+  --book-height-mobile: 67.5vw;
+}
+
+/* ========================================
+   BASE APP STYLES
+   ======================================== */
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-pink) 50%, var(--color-beige) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ========================================
+   FLIPBOOK CONTAINER
+   ======================================== */
+.flipbook-container {
+  position: relative;
+  perspective: 2500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ========================================
+   TAP HINTS
+   ======================================== */
+.tap-hints {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 100;
+  padding: 0 0.5rem;
+}
+
+.tap-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  color: var(--color-gold);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  animation: tapHintPulse 2s ease-in-out infinite;
+  backdrop-filter: blur(10px);
+}
+
+.tap-hint-left {
+  margin-left: -0.5rem;
+}
+
+.tap-hint-right {
+  margin-right: -0.5rem;
+}
+
+@keyframes tapHintPulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* ========================================
+   BOOK WRAPPER & SHADOW
+   ======================================== */
+.book-wrapper {
+  position: relative;
+  width: var(--book-width);
+  height: var(--book-height);
+  transform-style: preserve-3d;
+  cursor: pointer;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-shadow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  height: 110%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.1) 40%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  filter: blur(20px);
+  z-index: 0;
+}
+
+/* ========================================
+   BOOK STRUCTURE
+   ======================================== */
+.book {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  background: var(--color-cream);
+  border-radius: 8px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.15),
+    0 5px 15px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 2px var(--color-gold);
+  overflow: hidden;
+}
+
+/* Book spine decoration */
+.book-spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(
+    to right,
+    rgba(212, 175, 55, 0.3),
+    rgba(212, 175, 55, 0.1),
+    transparent
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ========================================
+   PAGE STYLES
+   ======================================== */
+.page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Current page - visible by default */
+.page-current {
+  z-index: 2;
+}
+
+/* Next page - hidden by default, shown when flipping */
+.page-next {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease-in 0.4s;
+}
+
+.page-next.visible {
+  opacity: 1;
+}
+
+/* Previous page */
+.page-prev {
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Hidden state */
+.page.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ========================================
+   3D PAGE FLIP ANIMATIONS
+   ======================================== */
+
+/* Flipping page layer */
+.page-flip {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  z-index: 10;
+  box-shadow: 
+    -5px 0 15px rgba(0, 0, 0, 0.1),
+    0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Page flip front side */
+.page-flip-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: var(--color-cream);
+  border-radius: 8px;
+}
+
+/* Page flip back side */
+.page-flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  background: var(--color-cream);
+  border-radius: 8px;
+}
+
+/* Flip forward animation */
+.page-flip-next {
+  animation: flipForward 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+}
+
+@keyframes flipForward {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(-180deg);
+  }
+}
+
+/* Flip backward animation */
+.page-flip-prev {
+  animation: flipBackward 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+  transform-origin: right center;
+  z-index: 10;
+}
+
+@keyframes flipBackward {
+  0% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+/* Flipping state for current page when going next */
+.page-current.flipping-next {
+  animation: fadeOut 0.4s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   BOOK PAGE CONTENT STYLES
+   ======================================== */
+.book-page {
+  width: 100%;
+  height: 100%;
+  padding: 3rem;
+  background: var(--color-cream);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Paper texture overlay */
+.book-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 115, 85, 0.01) 2px,
+      rgba(139, 115, 85, 0.01) 4px
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.page-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ========================================
+   COVER PAGE STYLES
+   ======================================== */
+.cover-page {
+  background: linear-gradient(135deg, var(--color-beige) 0%, var(--color-cream) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-content {
+  position: relative;
+  text-align: center;
+  padding: 3rem;
+}
+
+.ornamental-border {
+  position: absolute;
+  inset: 0;
+  border: 3px double var(--color-gold);
+  border-radius: 4px;
+}
+
+.ornamental-border::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 1px solid var(--color-gold);
+  border-radius: 4px;
+}
+
+.decorative-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--color-gold);
+}
+
+.decorative-corner.top-left {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.decorative-corner.top-right {
+  top: -2px;
+  right: -2px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.decorative-corner.bottom-left {
+  bottom: -2px;
+  left: -2px;
+  border-right: none;
+  border-top: none;
+}
+
+.decorative-corner.bottom-right {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+}
+
+.cover-text {
+  position: relative;
+  z-index: 2;
+}
+
+.book-title {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0 0 1rem 0;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-subtitle {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin: 0 0 2rem 0;
+}
+
+.heart-divider {
+  font-size: 2rem;
+  color: var(--color-gold);
+  margin: 2rem 0;
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.1); }
+  50% { transform: scale(1); }
+}
+
+.book-occasion {
+  font-family: var(--font-body);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  margin: 1rem 0;
+  letter-spacing: 1px;
+}
+
+.book-author {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--color-text-light);
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+/* ========================================
+   CONTENT PAGE STYLES
+   ======================================== */
+.content-page {
+  padding: 2.5rem;
+}
+
+.centered-text {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Typography */
+.chapter-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.chapter-subtitle {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.2;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 1rem 0;
+  letter-spacing: 2px;
+}
+
+.decorative-line {
+  width: 150px;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-gold),
+    transparent
+  );
+  margin: 1.5rem auto;
+}
+
+.page-text {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  margin: 1rem 0;
+}
+
+.page-text-large {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+  line-height: 2;
+  color: var(--color-text);
+  margin: 1.5rem 0;
+  font-weight: 400;
+}
+
+.page-text-emphasis {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  margin: 2rem 0;
+  font-style: italic;
+}
+
+.page-text-signature {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin-top: 3rem;
+}
+
+.italic-text {
+  font-style: italic;
+}
+
+.center-text {
+  text-align: center;
+}
+
+/* Quote Styles */
+.page-quote {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--color-rose);
+  margin: 1.5rem 0;
+  padding: 1rem 2rem;
+  border-left: 4px solid var(--color-gold);
+  background: rgba(255, 229, 229, 0.3);
+  border-radius: 0 8px 8px 0;
+  position: relative;
+}
+
+.page-quote::before {
+  content: '"';
+  font-size: 3rem;
+  color: var(--color-gold);
+  position: absolute;
+  left: 10px;
+  top: 0;
+  line-height: 1;
+}
+
+.large-quote {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-style: italic;
+  color: var(--color-text);
+  text-align: center;
+  margin: 0;
+  padding: 2rem;
+  line-height: 1.5;
+  position: relative;
+}
+
+.large-quote::before,
+.large-quote::after {
+  font-family: Georgia, serif;
+  font-size: 5rem;
+  color: var(--color-gold);
+  opacity: 0.3;
+  position: absolute;
+}
+
+.large-quote::before {
+  content: '"';
+  top: -20px;
+  left: 0;
+}
+
+.large-quote::after {
+  content: '"';
+  bottom: -40px;
+  right: 0;
+}
+
+/* Heart symbols */
+.heart-symbol {
+  font-size: 3rem;
+  color: var(--color-gold);
+  margin: 2rem 0;
+}
+
+.heart-symbol.large {
+  font-size: 4rem;
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+/* ========================================
+   IMAGE STYLES
+   ======================================== */
+.image-container {
+  margin: 1.5rem 0;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.featured-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.page-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.image-item:hover .page-image {
+  transform: scale(1.05);
+}
+
+.image-caption {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--color-text-light);
+  text-align: center;
+  margin-top: 0.5rem;
+  padding: 0 0.5rem;
+}
+
+/* ========================================
+   IMAGE GRID LAYOUTS
+   ======================================== */
+
+/* 2-column grid */
+.image-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.image-grid-2 .image-item {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-grid-2 .page-image {
+  aspect-ratio: 3/4;
+}
+
+/* 2-column large grid */
+.image-grid-2-large {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.image-grid-2-large .image-item {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-grid-2-large .page-image {
+  aspect-ratio: 4/5;
+}
+
+/* 3-column grid */
+.image-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.image-grid-3 .image-item {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.image-grid-3 .page-image {
+  aspect-ratio: 3/4;
+}
+
+/* ========================================
+   TABLE OF CONTENTS
+   ======================================== */
+.toc-list {
+  margin: 2rem 0;
+  padding: 0 2rem;
+}
+
+.toc-item {
+  display: flex;
+  align-items: baseline;
+  margin: 1.2rem 0;
+  font-family: var(--font-body);
+  color: var(--color-text);
+}
+
+.toc-chapter {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-gold);
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.toc-dots {
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--color-beige-dark) 0,
+    var(--color-beige-dark) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  margin: 0 0.5rem;
+}
+
+.toc-title {
+  font-size: 1.1rem;
+  font-family: var(--font-heading);
+  font-style: italic;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   QUOTE PAGE
+   ======================================== */
+.quote-page {
+  background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-cream) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================
+   FINAL PAGE
+   ======================================== */
+.final-page {
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-pink) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ornamental-border-small {
+  position: absolute;
+  inset: 1.5rem;
+  border: 2px solid var(--color-gold);
+  border-radius: 4px;
+  opacity: 0.5;
+}
+
+.ornamental-border-small::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--color-gold);
+  border-radius: 4px;
+}
+
+.final-message {
+  font-size: 2rem;
+  margin: 3rem 0 2rem;
+}
+
+/* ========================================
+   NAVIGATION CONTROLS
+   ======================================== */
+.navigation-controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--color-gold);
+  background: var(--color-cream);
+  color: var(--color-gold);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.5rem;
+}
+
+.nav-button:hover:not(:disabled) {
+  background: var(--color-gold);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.nav-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: var(--color-beige);
+  color: var(--color-beige);
+}
+
+.page-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  color: var(--color-text);
+  min-width: 80px;
+  justify-content: center;
+}
+
+.page-number {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--color-gold);
+}
+
+.page-divider {
+  color: var(--color-text-light);
+}
+
+.total-pages {
+  color: var(--color-text-light);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .book-wrapper {
+    width: var(--book-width-tablet);
+    height: var(--book-height-tablet);
+  }
+  
+  .book-page {
+    padding: 2rem;
+  }
+  
+  .book-title {
+    font-size: 2.5rem;
+  }
+  
+  .book-subtitle {
+    font-size: 1.4rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .chapter-subtitle {
+    font-size: 1.6rem;
+  }
+  
+  .large-quote {
+    font-size: 2rem;
+  }
+  
+  .image-grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .app {
+    padding: 1rem 0.5rem;
+  }
+  
+  .book-wrapper {
+    width: var(--book-width-mobile);
+    height: var(--book-height-mobile);
+    max-width: 500px;
+    max-height: 375px;
+  }
+  
+  .book-page {
+    padding: 1.5rem;
+  }
+  
+  .book-title {
+    font-size: 1.8rem;
+  }
+  
+  .book-subtitle {
+    font-size: 1rem;
+  }
+  
+  .book-occasion {
+    font-size: 1.1rem;
+  }
+  
+  .book-author {
+    font-size: 0.9rem;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .chapter-title {
+    font-size: 1rem;
+  }
+  
+  .chapter-subtitle {
+    font-size: 1.3rem;
+  }
+  
+  .page-text {
+    font-size: 0.9rem;
+  }
+  
+  .page-text-large {
+    font-size: 1rem;
+  }
+  
+  .page-text-emphasis {
+    font-size: 1.2rem;
+  }
+  
+  .page-quote {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+  
+  .large-quote {
+    font-size: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .large-quote::before,
+  .large-quote::after {
+    font-size: 3rem;
+  }
+  
+  .image-grid-2,
+  .image-grid-2-large,
+  .image-grid-3 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .toc-list {
+    padding: 0 1rem;
+  }
+  
+  .toc-item {
+    font-size: 0.85rem;
+    margin: 1rem 0;
+  }
+  
+  .toc-chapter {
+    font-size: 0.75rem;
+    min-width: 80px;
+  }
+  
+  .toc-title {
+    font-size: 0.9rem;
+  }
+  
+  .navigation-controls {
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .nav-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .page-indicator {
+    font-size: 1rem;
+    min-width: 60px;
+  }
+  
+  .page-number {
+    font-size: 1.2rem;
+  }
+  
+  .heart-divider,
+  .heart-symbol {
+    font-size: 1.5rem;
+  }
+  
+  .decorative-corner {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .image-caption {
+    font-size: 0.75rem;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+  .book-page {
+    padding: 1rem;
+  }
+  
+  .book-title {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+  
+  .book-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .section-title {
+    font-size: 1.4rem;
+  }
+  
+  .chapter-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .page-text-signature {
+    font-size: 1.4rem;
+  }
+  
+  .final-message {
+    font-size: 1.5rem;
+  }
+  
+  .ornamental-border-small {
+    inset: 1rem;
+  }
+}
+
+/* ========================================
+   PRINT STYLES (OPTIONAL)
+   ======================================== */
+@media print {
+  .navigation-controls {
+    display: none;
+  }
+  
+  .app {
+    background: white;
+  }
+  
+  .book-shadow {
+    display: none;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .page-flip,
+  .page-current,
+  .page-next,
+  .page-prev {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Focus styles for accessibility */
+.nav-button:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 3px;
+}

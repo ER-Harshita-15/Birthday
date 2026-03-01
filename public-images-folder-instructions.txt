@@ -1,0 +1,20 @@
+/* 
+ * IMPORTANT: This file is for documentation only
+ * 
+ * To set up your images:
+ * 1. Create a folder called "images" in the "public" directory
+ * 2. Add all your photos to that folder
+ * 3. Name them according to the list in IMAGE-SETUP.md
+ * 
+ * Folder structure should look like:
+ * 
+ * public/
+ * └── images/
+ *     ├── cake-cutting.jpg
+ *     ├── childhood-1.jpg
+ *     ├── childhood-2.jpg
+ *     ├── ... (all other images)
+ * 
+ * All image paths in the code reference "images/filename.jpg"
+ * which will automatically look in the public/images/ folder
+ */
