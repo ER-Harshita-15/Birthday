@@ -19,8 +19,8 @@ export function CoverPage() {
           <h1 className="book-title">The Story of You</h1>
           <p className="book-subtitle">A Journey Through Moments</p>
           <div className="heart-divider">❤️</div>
-          <p className="book-occasion">Happy Birthday My Love</p>
-          <p className="book-author">From [My Name]</p>
+          <p className="book-occasion">Happy Birthday My lovely SKY</p>
+          <p className="book-author">From Your MOON</p>
         </div>
       </div>
     </div>
@@ -40,7 +40,7 @@ export function OpeningPage() {
         
         <div className="image-container featured-image">
           <ImageWithFallback 
-            src="images/cake(1).jpg" 
+            src="images/cake-cutting.jpg" 
             alt="Cake cutting celebration"
             className="page-image"
           />
