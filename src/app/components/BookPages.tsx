@@ -40,7 +40,7 @@ export function OpeningPage() {
         
         <div className="image-container featured-image">
           <ImageWithFallback 
-            src="images/cake-cutting.jpg" 
+            src="images/cake(1).jpg" 
             alt="Cake cutting celebration"
             className="page-image"
           />
