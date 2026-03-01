@@ -20,7 +20,7 @@ export function FlipBook({ pages }: FlipBookProps) {
         setCurrentPage(currentPage + 1);
         setIsFlipping(false);
         setFlipDirection(null);
-      }, 800);
+      }, 600);
     }
   };
 
@@ -32,92 +32,50 @@ export function FlipBook({ pages }: FlipBookProps) {
         setCurrentPage(currentPage - 1);
         setIsFlipping(false);
         setFlipDirection(null);
-      }, 800);
-    }
-  };
-
-  // Handle tap on book - left side goes back, right side goes forward
-  const handleBookTap = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isFlipping) return;
-    
-    const bookElement = e.currentTarget;
-    const rect = bookElement.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const bookWidth = rect.width;
-    
-    // Left half goes back, right half goes forward
-    if (clickX < bookWidth / 2) {
-      handlePrevPage();
-    } else {
-      handleNextPage();
+      }, 600);
     }
   };
 
   return (
     <div className="flipbook-container">
-      {/* Tap hint indicator */}
-      {!isFlipping && (
-        <div className="tap-hints">
-          {currentPage > 0 && (
-            <div className="tap-hint tap-hint-left">
-              <ChevronLeft size={20} />
-              <span>Tap</span>
-            </div>
-          )}
-          {currentPage < totalPages - 1 && (
-            <div className="tap-hint tap-hint-right">
-              <span>Tap</span>
-              <ChevronRight size={20} />
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="book-wrapper" onClick={handleBookTap}>
-        {/* Book shadow and base */}
+      <div className="book-wrapper">
+        {/* Book shadow */}
         <div className="book-shadow"></div>
-        
+
         {/* The book */}
         <div className="book">
-          {/* Current page (left side when flipping) */}
+          {/* Current page */}
           <div className={`page page-current ${isFlipping && flipDirection === 'next' ? 'flipping-next' : ''} ${isFlipping && flipDirection === 'prev' ? 'hidden' : ''}`}>
             {pages[currentPage]}
           </div>
 
-          {/* Next page (shown when flipping forward) */}
+          {/* Next page */}
           {currentPage < totalPages - 1 && (
             <div className={`page page-next ${isFlipping && flipDirection === 'next' ? 'visible' : ''}`}>
               {pages[currentPage + 1]}
             </div>
           )}
 
-          {/* Previous page (shown when flipping backward) */}
+          {/* Previous page */}
           {currentPage > 0 && (
             <div className={`page page-prev ${isFlipping && flipDirection === 'prev' ? 'flipping-prev' : ''}`}>
               {pages[currentPage - 1]}
             </div>
           )}
 
-          {/* Animated flipping page */}
+          {/* Animated flipping page - forward */}
           {isFlipping && flipDirection === 'next' && (
             <div className="page page-flip page-flip-next">
-              <div className="page-flip-front">
-                {pages[currentPage]}
-              </div>
-              <div className="page-flip-back">
-                {pages[currentPage + 1]}
-              </div>
+              <div className="page-flip-front">{pages[currentPage]}</div>
+              <div className="page-flip-back">{pages[currentPage + 1]}</div>
             </div>
           )}
 
+          {/* Animated flipping page - backward */}
           {isFlipping && flipDirection === 'prev' && (
             <div className="page page-flip page-flip-prev">
-              <div className="page-flip-front">
-                {pages[currentPage]}
-              </div>
-              <div className="page-flip-back">
-                {pages[currentPage - 1]}
-              </div>
+              <div className="page-flip-front">{pages[currentPage]}</div>
+              <div className="page-flip-back">{pages[currentPage - 1]}</div>
             </div>
           )}
         </div>
@@ -129,10 +87,7 @@ export function FlipBook({ pages }: FlipBookProps) {
       {/* Navigation controls */}
       <div className="navigation-controls">
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handlePrevPage();
-          }}
+          onClick={handlePrevPage}
           disabled={currentPage === 0 || isFlipping}
           className="nav-button nav-prev"
           aria-label="Previous page"
@@ -147,10 +102,7 @@ export function FlipBook({ pages }: FlipBookProps) {
         </div>
 
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleNextPage();
-          }}
+          onClick={handleNextPage}
           disabled={currentPage === totalPages - 1 || isFlipping}
           className="nav-button nav-next"
           aria-label="Next page"
