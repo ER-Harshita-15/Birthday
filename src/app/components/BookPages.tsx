@@ -210,27 +210,7 @@ export function Chapter1Page3() {
   );
 }
 
-export function Chapter1Page4() {
-  return (
-    <div className="book-page content-page">
-      <div className="page-content">
-        <div className="image-grid-2">
-          <div className="image-item">
-            <div className="image-wrapper"><ImageWithFallback src="images/childhood-8.jpg" alt="Childhood 8" className="page-image" /></div>
-            <p className="image-caption">The spark in your eyes</p>
-          </div>
-          <div className="image-item">
-            <div className="image-wrapper"><ImageWithFallback src="images/childhood-9.jpg" alt="Childhood 9" className="page-image" /></div>
-            <p className="image-caption">The beginning of greatness</p>
-          </div>
-        </div>
-        <p className="page-text italic-text center-text" style={{ marginTop: '1rem' }}>
-          Every great person starts as a child with dreams...
-        </p>
-      </div>
-    </div>
-  );
-}
+
 // ========================================
 // CHAPTER 2 — Home (11 images)
 // ========================================
@@ -913,24 +893,7 @@ export function Chapter10Page1() {
   );
 }
 
-export function Chapter10Page2() {
-  return (
-    <div className="book-page content-page">
-      <div className="page-content">
-        <div className="image-grid-2">
-          <div className="image-item">
-            <div className="image-wrapper"><ImageWithFallback src="images/rider-3.jpg" alt="Rider 3" className="page-image" /></div>
-            <p className="image-caption">Passion</p>
-          </div>
-          <div className="image-item">
-            <div className="image-wrapper"><ImageWithFallback src="images/rider-4.jpg" alt="Rider 4" className="page-image" /></div>
-            <p className="image-caption">The open road</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+
 
 // ========================================
 // CHAPTER 11 — IIT Dream (4 images)
