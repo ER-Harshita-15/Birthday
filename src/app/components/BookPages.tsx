@@ -240,16 +240,16 @@ export function Chapter2Page1() {
     <div className="book-page content-page">
       <div className="page-content">
         <h2 className="chapter-title">Chapter 2</h2>
-        <h3 className="chapter-subtitle">The Home That Built Him</h3>
-        <blockquote className="page-quote">"A man is shaped by the love of his home."</blockquote>
+        <h3 className="chapter-subtitle">Homieessss</h3>
+        <blockquote className="page-quote">"Every Moment which I enjoyed with you here are the most precious memories of my life."</blockquote>
         <div className="image-grid-2">
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/home-1.jpg" alt="Home 1" className="page-image" /></div>
-            <p className="image-caption">Roots that shaped you</p>
+            <p className="image-caption">Obssessed with each other</p>
           </div>
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/home-2.jpg" alt="Home 2" className="page-image" /></div>
-            <p className="image-caption">Foundation of strength</p>
+            <p className="image-caption">Love is in the air</p>
           </div>
         </div>
       </div>
@@ -268,7 +268,7 @@ export function Chapter2Page2() {
           </div>
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/home-4.jpg" alt="Home 4" className="page-image" /></div>
-            <p className="image-caption">Family love</p>
+            <p className="image-caption">usssssss</p>
           </div>
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/home-5.jpg" alt="Home 5" className="page-image" /></div>
@@ -350,11 +350,11 @@ export function Chapter3Page1() {
         <div className="image-grid-2">
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/traditional-1.jpg" alt="Traditional 1" className="page-image" /></div>
-            <p className="image-caption">Timeless charm</p>
+            <p className="image-caption">Culture Suits you</p>
           </div>
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/traditional-2.jpg" alt="Traditional 2" className="page-image" /></div>
-            <p className="image-caption">Culture suits you</p>
+            <p className="image-caption">Timeless charm</p>
           </div>
         </div>
       </div>
@@ -507,11 +507,11 @@ export function Chapter5Page2() {
           </div>
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/college-4.jpg" alt="College 4" className="page-image" /></div>
-            <p className="image-caption">Learning and growing</p>
+            <p className="image-caption">Most Handsome Boy</p>
           </div>
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/college-5.jpg" alt="College 5" className="page-image" /></div>
-            <p className="image-caption">Chasing dreams</p>
+            <p className="image-caption">Apna Adda After clg</p>
           </div>
         </div>
       </div>
@@ -551,11 +551,11 @@ export function Chapter6Page2() {
         <div className="image-grid-3">
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/transformation-3.jpg" alt="Transformation 3" className="page-image" /></div>
-            <p className="image-caption">Confidence</p>
+            <p className="image-caption">Evolution</p>
           </div>
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/transformation-4.jpg" alt="Transformation 4" className="page-image" /></div>
-            <p className="image-caption">Evolution</p>
+            <p className="image-caption">Confidence</p>
           </div>
           <div className="image-item">
             <div className="image-wrapper"><ImageWithFallback src="images/transformation-5.jpg" alt="Transformation 5" className="page-image" /></div>
